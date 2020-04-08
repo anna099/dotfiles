@@ -1,0 +1,11 @@
+*
+
+!.gitignore
+!.gitconfig
+
+!.vimrc
+!.bashrc
+!.bash_profile
+!.tmux.conf
+!.inputrc
+!.ghci
