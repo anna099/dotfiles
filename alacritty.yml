@@ -1,0 +1,54 @@
+window:
+    dynamic_padding: false
+    decorations: full
+    title: Terminal
+    dimensions:
+        columns: 84
+        lines: 28
+
+dynamic_title: true
+
+font:
+    normal:
+        family: SauceCodePro Nerd Font
+        style: Regular
+    size: 12.0
+    use_thin_strokes: true
+
+key_bindings:
+    - { key: Key3, mods: alt, chars: "#" }
+    # currently Alt is not the meta key in alacritty. Since I use
+    # the meta key with hjkl in tmux, I have got these bindings.
+    - { key: H,         mods: Alt,       chars: "\x1bh"                       }
+    - { key: J,         mods: Alt,       chars: "\x1bj"                       }
+    - { key: K,         mods: Alt,       chars: "\x1bk"                       }
+    - { key: L,         mods: Alt,       chars: "\x1bl"                       }
+
+
+colors:
+  # Default colors
+  primary:
+    background: '#282c34'
+    foreground: '#abb2bf'
+
+  # Normal colors
+  normal:
+    black:   '#282c34'
+    red:     '#e06c75'
+    green:   '#98c379'
+    yellow:  '#d19a66'
+    blue:    '#61afef'
+    magenta: '#c678dd'
+    cyan:    '#56b6c2'
+    white:   '#abb2bf'
+
+  # Bright colors
+  bright:
+    black:   '#5c6370'
+    red:     '#e06c75'
+    green:   '#98c379'
+    yellow:  '#d19a66'
+    blue:    '#61afef'
+    magenta: '#c678dd'
+    cyan:    '#56b6c2'
+    white:   '#ffffff'
