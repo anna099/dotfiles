@@ -1,50 +1,30 @@
-alias t='node index.js hume'
+export PS1="\[\033[38;5;8m\]\W\[$(tput sgr0)\] \[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;88m\];\[$(tput sgr0)\] \[$(tput sgr0)\]"
 
-export PATH="~/.local/bin:~/Library/Haskell/bin:$PATH"
-
-shopt -s nocaseglob # ignore case in autocomplete
-shopt -s cdspell # autocorrection in `cd` arguments
-
-alias vim=nvim
-alias vi=nvim
-
-# shortcut to reopen last file in vim
-alias v="vim -c \"normal '0\""
-
-# use python3
-alias py=python3
-
-# utliity shortcuts
+alias vim='nvim'
+alias vi='nvim'
+alias mkdir='mkdir -p'
 alias up='cd ..'
-alias cp='cp -iv' # interactive and verbose `cp`
-alias mv='mv -iv' # interactive and verbose `mv`
-alias mkdir='mkdir -p' # create intermediate directories
-alias grep='egrep -i --colour=always'  # -i = insensitive.
-alias GREP='egrep -Hn --colour=always' # -H = show filename, -n = show line number
-alias ls='colorls -At'
 
-alias p='cd ~/.programs'
-alias h='cd ~/.haskell'
-alias ph='cd ~/.programs/haskell'
-alias k='cd ~/.programs/kant && imgcat kant.jpg'
+if hash bat 2>/dev/null; then
+    alias cat='bat --theme=base16'
+fi
 
-# git shortcuts
-alias gpom='git push origin master'
-alias gpog='git push origin gh-pages'
-get() { git clone https://github.com/$1; }
-getmy() { git clone https://github.com/anna099/$1; }
+if hash gls 2>/dev/null; then
+    alias ls='gls -AF --group-directories-first --color'
+fi
 
-#export PS1="  \[\033[38;5;6m\]\W\[$(tput sgr0)\]: "
-export PS1=" \[\033[38;5;39m\]\W\[$(tput sgr0)\]\[\033[38;5;159m\]>\[$(tput sgr0)\] \[$(tput sgr0)\]"
+alias xa='killall alacritty'
 
-function ghc-pkg-reset() {
-    read -p 'erasing all your user ghc and cabal packages - are you sure (y/n) ? ' ans
-    test x$ans == xy && ( \
-        echo 'erasing directories under ~/.ghc'; rm -rf `find ~/.ghc -maxdepth 1 -type d`; \
-        echo 'erasing ~/.cabal/lib'; rm -rf ~/.cabal/lib; \
-        # echo 'erasing ~/.cabal/packages'; rm -rf ~/.cabal/packages; \                                                                                                                                                                     
-        # echo 'erasing ~/.cabal/share'; rm -rf ~/.cabal/share; \                                                                                                                                                                           
-        )
+config() {
+    if [ $1 = "b" ]; then
+        vim ~/.bashrc && source ~/.bashrc
+    elif [ $1 = "v" ]; then
+        vim ~/.config/nvim/init.vim
+    elif [ $1 = "a" ]; then
+        vim ~/.alacritty.yml
+    elif [ $1 = "t" ]; then
+        vim ~/.tmux.conf
+    else
+        echo "Config file not recognised."
+    fi
 }
-
-[ -f "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env" ] && source "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env"

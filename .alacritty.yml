@@ -1,0 +1,80 @@
+# Configuration for Alacritty, the GPU enhanced terminal emulator.
+
+window:
+    dimensions:
+        columns: 80
+        lines: 24
+    padding:
+        x: 50
+        y: 50
+    decorations: buttonless
+    title: Terminal
+
+font:
+    normal:
+        family: Source Code Pro
+        style: Semibold
+    bold:
+            style: Black
+    italic:
+            style: Semibold Italic
+    bold_italic:
+            style: Black Italic
+
+    size: 14.0
+    use_thin_strokes: false
+
+colors:
+    # Default colors
+    primary:
+        background: '0xfafafa'
+        foreground: '0x383a42'
+
+    # Colors the cursor will use if `custom_cursor_colors` is true
+    cursor:
+        text: '0xfafafa'
+        cursor: '0x383a42'
+
+    # Normal colors
+    normal:
+        black:     '0xfafafa'
+        red:         '0xca1243'
+        green:     '0x50a14f'
+        yellow:    '0xc18401'
+        blue:        '0x4078f2'
+        magenta: '0xa626a4'
+        cyan:        '0x0184bc'
+        white:     '0x383a42'
+
+    # Bright colors
+    bright:
+        black:     '0xa0a1a7'
+        red:         '0xd75f00'
+        green:     '0xf0f0f1'
+        yellow:    '0xe5e5e6'
+        blue:        '0x696c77'
+        magenta: '0x202227'
+        cyan:        '0x986801'
+        white:     '0x090a0b'
+
+draw_bold_text_with_bright_colors: false
+
+dynamic_title: true
+
+mouse:
+    url:
+        launcher:
+            program: open
+            args: []
+
+key_bindings:
+    - { key: Key3,      mods: alt,       chars: "#"               }
+    - { key: H,         mods: alt,       chars: "\x1bh"           }
+    - { key: J,         mods: alt,       chars: "\x1bj"           }
+    - { key: K,         mods: alt,       chars: "\x1bk"           }
+    - { key: L,         mods: alt,       chars: "\x1bl"           }
+    - { key: F,         mods: Command,   action: ToggleFullscreen }
+    # I do not want to accidentally press these:
+    - { key: H,         mods: Command,   action: None             }
+    - { key: Q,         mods: Command,   action: None             }
+    - { key: M,         mods: Command,   action: None             }
