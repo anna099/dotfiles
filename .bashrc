@@ -18,6 +18,8 @@ alias xa='killall alacritty'
 get() {
     git clone https://github.com/$1
 }
+alias gpom='git push origin master'
+alias gpog='git push origin gh-pages'
 
 config() {
     if [ $1 = "b" ]; then
