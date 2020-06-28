@@ -15,6 +15,10 @@ fi
 
 alias xa='killall alacritty'
 
+get() {
+    git clone https://github.com/$1
+}
+
 config() {
     if [ $1 = "b" ]; then
         vim ~/.bashrc && source ~/.bashrc
