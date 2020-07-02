@@ -1,4 +1,9 @@
-" General settings
+" Accessible settings -------------------------------------------
+" They are at the top because I'm likely to change them often.
+
+set nowrap
+
+" General settings ----------------------------------------------
 
 set nocompatible
 set encoding=utf-8
@@ -34,22 +39,29 @@ set noswapfile
 set termguicolors
 syntax on
 
-" Plugins
+" Plugins -------------------------------------------------------
+
 call plug#begin(stdpath('data') . './plugged')
 Plug 'chriskempson/base16-vim'
 Plug 'bronson/vim-trailing-whitespace'
+Plug 'mattn/emmet-vim'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'ervandew/supertab'
+Plug 'jeetsukumaran/vim-buffergator'
 call plug#end()
 
-" Colours and highlighting
-color base16-one-light
+" Colours and highlighting --------------------------------------
+
+color base16-monokai
 highlight Normal guibg=NONE
 highlight StatusLine guifg=#af8787 gui=bold
 highlight Comment gui=italic
 highlight Search guibg=cornflowerblue guifg=white
-highlight markdownItalic gui=italic guifg=grey
+highlight markdownItalic gui=italic guifg=bisque
 highlight markdownBold gui=bold
 
-" Keybindings
+" Keybindings ---------------------------------------------------
 
 nnoremap <space> <nop>
 let mapleader=" "
@@ -59,10 +71,14 @@ cnoremap <c-e> <end>
 nnoremap <leader>f gqap
 nnoremap <right> <esc>>>
 nnoremap <left> <esc><<
+vnoremap <right> <esc>>>
+vnoremap <left> <esc><<
 nnoremap j gj
 nnoremap k gk
 nnoremap N 9j
 nnoremap M 9k
+vnoremap N 9j
+vnoremap M 9k
 nnoremap n nzz
 nnoremap ; :
 vnoremap ; :
@@ -86,12 +102,19 @@ nnoremap <leader>w <c-w>
 " Text insertion shortcuts
 nnoremap <leader>n yyp<c-a>WC
 
-" The statusline, which is only on the right
+" Custom commands -----------------------------------------------
+
+command! Build !./build.sh
+nnoremap % :wall<cr>:silent Build<cr>
+
+" The statusline ------------------------------------------------
+
 set statusline=%="
 set statusline+=%t    " filename
 set statusline+=%m    " modified?
 set statusline+=\ %n  " buffer number
 set statusline+=,\ %l " line number
+set statusline+=/%L   " out of total numbers
 
 " This is a minimal statusline, with no background:
 highlight StatusLine guibg=NONE

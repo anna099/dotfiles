@@ -1,4 +1,4 @@
-export PS1="\[\033[38;5;8m\]\W\[$(tput sgr0)\] \[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;88m\];\[$(tput sgr0)\] \[$(tput sgr0)\]"
+export PS1="\[\033[38;5;8m\]\W\[$(tput sgr0)\] \[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;168m\];\[$(tput sgr0)\] \[$(tput sgr0)\]"
 
 alias vim='nvim'
 alias vi='nvim'
@@ -11,6 +11,11 @@ fi
 
 if hash gls 2>/dev/null; then
     alias ls='gls -AF --group-directories-first --color'
+    eval `gdircolors`
+fi
+
+if hash fzf 2>/dev/null; then
+    alias fim='vim $(fzf)'
 fi
 
 alias xa='killall alacritty'
