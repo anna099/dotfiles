@@ -3,25 +3,28 @@
 window:
     dimensions:
         columns: 80
-        lines: 24
+        lines: 38
     padding:
-        x: 40
-        y: 40
-    decorations: buttonless
+        x: 20
+        y: 20
+    decorations: full
     title: Terminal
 
 font:
     normal:
-        family: Inconsolata LGC
+        family: Mononoki
         style: Regular
     bold:
             style: Bold
     italic:
             style: Italic
     bold_italic:
-            style: BoldItalic
+            style: Bold Italic
 
-    size: 12.0
+    size: 11.0
+    offset:
+        x: -1
+        y: 2
     use_thin_strokes: false
 
 dynamic_title: true
@@ -33,56 +36,50 @@ mouse:
             args: []
 
 key_bindings:
-    - { key: Key3,      mods: alt,       chars: "#"               }
     - { key: H,         mods: alt,       chars: "\x1bh"           }
     - { key: J,         mods: alt,       chars: "\x1bj"           }
     - { key: K,         mods: alt,       chars: "\x1bk"           }
     - { key: L,         mods: alt,       chars: "\x1bl"           }
-    - { key: F,         mods: Command,   action: ToggleFullscreen }
-    # I do not want to accidentally press these:
-    - { key: H,         mods: Command,   action: None             }
-    - { key: Q,         mods: Command,   action: None             }
-    - { key: M,         mods: Command,   action: None             }
 
-# Base16 Monokai 256 - alacritty color config
-# Wimer Hazenberg (http://www.monokai.nl)
+# Base16 OneDark 256 - alacritty color config
+# Lalit Magant (http://github.com/tilal6991)
 colors:
   # Default colors
   primary:
-    background: '0x272822'
-    foreground: '0xf8f8f2'
+    background: '0x282c34'
+    foreground: '0xabb2bf'
 
   # Colors the cursor will use if `custom_cursor_colors` is true
   cursor:
-    text: '0x272822'
-    cursor: '0xf8f8f2'
+    text: '0x282c34'
+    cursor: '0xabb2bf'
 
   # Normal colors
   normal:
-    black:   '0x272822'
-    red:     '0xf92672'
-    green:   '0xa6e22e'
-    yellow:  '0xf4bf75'
-    blue:    '0x66d9ef'
-    magenta: '0xae81ff'
-    cyan:    '0xa1efe4'
-    white:   '0xf8f8f2'
+    black:   '0x282c34'
+    red:     '0xe06c75'
+    green:   '0x98c379'
+    yellow:  '0xe5c07b'
+    blue:    '0x61afef'
+    magenta: '0xc678dd'
+    cyan:    '0x56b6c2'
+    white:   '0xabb2bf'
 
   # Bright colors
   bright:
-    black:   '0x75715e'
-    red:     '0xf92672'
-    green:   '0xa6e22e'
-    yellow:  '0xf4bf75'
-    blue:    '0x66d9ef'
-    magenta: '0xae81ff'
-    cyan:    '0xa1efe4'
-    white:   '0xf9f8f5'
+    black:   '0x545862'
+    red:     '0xe06c75'
+    green:   '0x98c379'
+    yellow:  '0xe5c07b'
+    blue:    '0x61afef'
+    magenta: '0xc678dd'
+    cyan:    '0x56b6c2'
+    white:   '0xc8ccd4'
 
   indexed_colors:
-    - { index: 16, color: '0xfd971f' }
-    - { index: 17, color: '0xcc6633' }
-    - { index: 18, color: '0x383830' }
-    - { index: 19, color: '0x49483e' }
-    - { index: 20, color: '0xa59f85' }
-    - { index: 21, color: '0xf5f4f1' }
+    - { index: 16, color: '0xd19a66' }
+    - { index: 17, color: '0xbe5046' }
+    - { index: 18, color: '0x353b45' }
+    - { index: 19, color: '0x3e4451' }
+    - { index: 20, color: '0x565c64' }
+    - { index: 21, color: '0xb6bdca' }

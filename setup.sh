@@ -7,9 +7,11 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     cp -i .bashrc ~/.bashrc
     cp -i .bash_profile ~/.bash_profile
     cp -i .alacritty.yml ~/.alacritty.yml
+    mkdir -p ~/.config/nvim/
     cp -i init.vim ~/.config/nvim/init.vim
     cp -i .inputrc ~/.inputrc
     cp -i .update-dotfiles.sh ~/.update-dotfiles.sh
+    cp -i .tmux.conf ~/.tmux.conf
 fi
 
 if ! hash brew 2>/dev/null; then
@@ -42,3 +44,6 @@ if hash brew 2>/dev/null; then
         brew install bat
     fi
 fi
+
+echo $'\e[36mInstalling vim-plug for Neovim...\e[0m'
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'

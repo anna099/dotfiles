@@ -1,9 +1,10 @@
-" Accessible settings -------------------------------------------
+" Accessible settings ---------------------------------------------------------
 " They are at the top because I'm likely to change them often.
 
 set nowrap
+set cursorline
 
-" General settings ----------------------------------------------
+" General settings ------------------------------------------------------------
 
 set nocompatible
 set encoding=utf-8
@@ -39,7 +40,7 @@ set noswapfile
 set termguicolors
 syntax on
 
-" Plugins -------------------------------------------------------
+" Plugins ---------------------------------------------------------------------
 
 call plug#begin(stdpath('data') . './plugged')
 Plug 'chriskempson/base16-vim'
@@ -49,19 +50,33 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'ervandew/supertab'
 Plug 'jeetsukumaran/vim-buffergator'
+Plug 'junegunn/Goyo.vim'
+Plug 'Yggdroot/indentLine'
+Plug 'neovimhaskell/haskell-vim'
 call plug#end()
 
-" Colours and highlighting --------------------------------------
+autocmd! User GoyoLeave nested call Colors()
+let g:indentLine_char = '┊'
 
-color base16-monokai
-highlight Normal guibg=NONE
-highlight StatusLine guifg=#af8787 gui=bold
-highlight Comment gui=italic
-highlight Search guibg=cornflowerblue guifg=white
-highlight markdownItalic gui=italic guifg=bisque
-highlight markdownBold gui=bold
+" Colours and highlighting ----------------------------------------------------
 
-" Keybindings ---------------------------------------------------
+color base16-onedark
+
+" Some things undo custom highlighting, so I wrap these in
+" a function which can be called when necessary.
+function Colors()
+    hi Normal guibg=NONE
+    hi StatusLine guifg=#af8787 gui=bold guibg=NONE
+    hi StatusLineNC guibg=NONE
+    hi VertSplit guibg=NONE
+    hi Comment gui=italic
+    hi Search guibg=cornflowerblue guifg=white
+    hi markdownItalic gui=italic
+    hi markdownBold gui=bold
+endfunction
+call Colors()
+
+" Keybindings -----------------------------------------------------------------
 
 nnoremap <space> <nop>
 let mapleader=" "
@@ -87,27 +102,43 @@ nnoremap H ^
 nnoremap L $
 vnoremap H ^
 vnoremap L $
-inoremap ` <esc>
-inoremap §` `
-vnoremap ` <esc>
+inoremap `` §
 nnoremap <leader><cr> :let @/ = ""<cr>
 nmap <tab> :bnext<cr>
 nmap <s-tab> :bprevious<cr>
 nnoremap <leader>Q :bd<cr>
 nnoremap Q :q<cr>
-nnoremap <backspace> :FixWhitespace<cr>:update<cr>
-nnoremap <leader><backspace> :FixWhitespace<cr>:wall<cr>:silent make<cr>
 nnoremap <leader>w <c-w>
 
-" Text insertion shortcuts
-nnoremap <leader>n yyp<c-a>WC
+" Plugin-specific bindings:
+nnoremap <backspace> :FixWhitespace<cr>:update<cr>
+nnoremap <leader>g :Goyo<cr>
+nnoremap <leader>l :Commentary<cr>
 
-" Custom commands -----------------------------------------------
+" Text-insertion bindings
+nnoremap <leader>n yyp<c-a>WC
+inoremap ;; ::
+iabbrev <expr> day, strftime('%y %b %d')
+nnoremap <leader>d gg:put! =strftime('%y %b %d')<cr>ILast edited: <esc>
+
+" Custom commands and functions, etc. -----------------------------------------
 
 command! Build !./build.sh
-nnoremap % :wall<cr>:silent Build<cr>
+nnoremap <leader>m :wall<cr>:silent Build<cr>
 
-" The statusline ------------------------------------------------
+function Seal()
+    if winline() == winheight(winnr()) / 2 ||
+    \  winline() == (winheight(winnr()) / 2) + 1 " (For odd-numbered heights)
+        normal! zt
+    elseif winline() == 1
+        normal! zb
+    else
+        normal! zz
+    endif
+endfunction
+nnoremap <leader><leader> :call Seal()<cr>
+
+" The statusline --------------------------------------------------------------
 
 set statusline=%="
 set statusline+=%t    " filename
@@ -115,10 +146,6 @@ set statusline+=%m    " modified?
 set statusline+=\ %n  " buffer number
 set statusline+=,\ %l " line number
 set statusline+=/%L   " out of total numbers
-
-" This is a minimal statusline, with no background:
-highlight StatusLine guibg=NONE
-highlight StatusLineNC guibg=NONE
 
 nnoremap <leader>u :source ~/.config/nvim/init.vim<cr>
 nnoremap <leader>V :edit ~/.config/nvim/init.vim<cr>

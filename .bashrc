@@ -4,21 +4,11 @@ alias vim='nvim'
 alias vi='nvim'
 alias mkdir='mkdir -p'
 alias up='cd ..'
+alias ls='ls -F --group-directories-first --color'
+alias pac='sudo apt install'
+alias open='xdg-open'
 
-if hash bat 2>/dev/null; then
-    alias cat='bat --theme=base16'
-fi
-
-if hash gls 2>/dev/null; then
-    alias ls='gls -AF --group-directories-first --color'
-    eval `gdircolors`
-fi
-
-if hash fzf 2>/dev/null; then
-    alias fim='vim $(fzf)'
-fi
-
-alias xa='killall alacritty'
+mkd() { mkdir $1 && cd $1; }
 
 get() {
     git clone https://github.com/$1
