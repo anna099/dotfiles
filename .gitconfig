@@ -1,8 +1,8 @@
-[user]
-	name = anna099
-	email = annahart099@gmail.com
-[credential]
-	username = anna099
 [alias]
+	st = status -s
 	co = commit
-	st = status
+[user]
+	email = annahart099@gmail.com
+	name = Anna Hart
+[credential]
+	helper = store

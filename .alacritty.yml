@@ -1,39 +1,38 @@
 # Configuration for Alacritty, the GPU enhanced terminal emulator.
 
+shell:
+    program: /usr/bin/bash
+
 window:
     dimensions:
-        columns: 80
-        lines: 38
+        columns: 89
+        lines: 26
     padding:
-        x: 20
-        y: 20
+        x: 15
+        y: 10
     decorations: full
     title: Terminal
+    dynamic_title: true
+
+background_opacity: 1
 
 font:
     normal:
-        family: Mononoki
+        # τὸ γὰρ αὐτὸ νοεῖν ἐστίν τε καὶ εἶναι.
+        family: Rec Mono Linear
         style: Regular
     bold:
-            style: Bold
+        style: Bold
     italic:
-            style: Italic
+        style: Italic
     bold_italic:
-            style: Bold Italic
+        style: Bold Italic
 
-    size: 11.0
+    size: 11.5
     offset:
-        x: -1
-        y: 2
-    use_thin_strokes: false
-
-dynamic_title: true
-
-mouse:
-    url:
-        launcher:
-            program: open
-            args: []
+        x: 0
+        y: 0
+    use_thin_strokes: true
 
 key_bindings:
     - { key: H,         mods: alt,       chars: "\x1bh"           }
@@ -41,45 +40,55 @@ key_bindings:
     - { key: K,         mods: alt,       chars: "\x1bk"           }
     - { key: L,         mods: alt,       chars: "\x1bl"           }
 
-# Base16 OneDark 256 - alacritty color config
-# Lalit Magant (http://github.com/tilal6991)
-colors:
-  # Default colors
-  primary:
-    background: '0x282c34'
-    foreground: '0xabb2bf'
+schemes:
 
-  # Colors the cursor will use if `custom_cursor_colors` is true
-  cursor:
-    text: '0x282c34'
-    cursor: '0xabb2bf'
+    estuary: &estuary
+        primary:
+            background: '0xf4f3ec'
+            foreground: '0x5f5e4e'
+        cursor:
+            text: '0xf4f3ec'
+            cursor: '0x5f5e4e'
+        normal:
+            black:   '0xf4f3ec'
+            red:     '0xba6236'
+            green:   '0x7d9726'
+            yellow:  '0xa5980d'
+            blue:    '0x36a166'
+            magenta: '0x5f9182'
+            cyan:    '0x5b9d48'
+            white:   '0x5f5e4e'
+        bright:
+            black:   '0x878573'
+            red:     '0xae7313'
+            green:   '0xe7e6df'
+            yellow:  '0x929181'
+            blue:    '0x6c6b5a'
+            magenta: '0x302f27'
+            cyan:    '0x9d6c7c'
+            white:   '0x22221b'
 
-  # Normal colors
-  normal:
-    black:   '0x282c34'
-    red:     '0xe06c75'
-    green:   '0x98c379'
-    yellow:  '0xe5c07b'
-    blue:    '0x61afef'
-    magenta: '0xc678dd'
-    cyan:    '0x56b6c2'
-    white:   '0xabb2bf'
+    sonokai: &sonokai
+        primary:
+            background: "0x2d2a2e"
+            foreground: "0xe3e1e4"
+        normal:
+            black: "0x1a181a"
+            red: "0xf85e84"
+            green: "0x9ecd6f"
+            yellow: "0xe5c463"
+            blue: "0x7accd7"
+            magenta: "0xab9df2"
+            cyan: "0xef9062"
+            white: "0xe3e1e4"
+        bright:
+            black: "0x1a181a"
+            red: "0xf85e84"
+            green: "0x9ecd6f"
+            yellow: "0xe5c463"
+            blue: "0x7accd7"
+            magenta: "0xab9df2"
+            cyan: "0xef9062"
+            white: "0xe3e1e4"
 
-  # Bright colors
-  bright:
-    black:   '0x545862'
-    red:     '0xe06c75'
-    green:   '0x98c379'
-    yellow:  '0xe5c07b'
-    blue:    '0x61afef'
-    magenta: '0xc678dd'
-    cyan:    '0x56b6c2'
-    white:   '0xc8ccd4'
-
-  indexed_colors:
-    - { index: 16, color: '0xd19a66' }
-    - { index: 17, color: '0xbe5046' }
-    - { index: 18, color: '0x353b45' }
-    - { index: 19, color: '0x3e4451' }
-    - { index: 20, color: '0x565c64' }
-    - { index: 21, color: '0xb6bdca' }
+colors: *sonokai
