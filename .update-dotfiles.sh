@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
-if [ ! -d "~/.dotfiles" ]; then
-    mkdir -p ~/.dotfiles
-fi
+# Take all my dotfiles and copy them into this folder.
 
-cp ~/.config/nvim/init.vim ~/.dotfiles/init.vim
-cp ~/.bashrc ~/.dotfiles/.bashrc
-cp ~/.bash_profile ~/.dotfiles/.bash_profile
-cp ~/.alacritty.yml ~/.dotfiles/.alacritty.yml
-cp ~/.tmux.conf ~/.dotfiles/.tmux.conf
+cp ~/.config/nvim/init.vim .
+cp ~/.bashrc .
+cp ~/.bash_profile .
+cp ~/.alacritty.yml .
+cp ~/.tmux.conf .

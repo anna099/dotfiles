@@ -1,9 +1,13 @@
+" Type 261G to change the color scheme.
+"
 " Accessible settings ---------------------------------------------------------
 " They are at the top because I'm likely to change them often.
 
 set nowrap
-set number
+set nonumber
 set colorcolumn=+1
+set list
+set nocursorline
 
 " General settings                                                          {{{
 set nocompatible
@@ -19,7 +23,7 @@ set splitright
 set splitbelow
 set noerrorbells
 set novisualbell
-set mouse=nv
+set mouse=n
 set breakindent
 set showcmd
 set expandtab
@@ -47,6 +51,7 @@ set guicursor=n-v:block,i:ver10,r:hor10,c-ci:ver10
 set diffopt+=vertical
 set nojoinspaces
 set scrolloff=4
+set listchars=tab:\|\ ,trail:·,extends:>,precedes:<
 
 " }}}
 " Keybindings                                                               {{{
@@ -61,14 +66,19 @@ nnoremap <leader>o za
 nnoremap <leader>u :source ~/.config/nvim/init.vim<cr>
 nnoremap <leader>V :edit ~/.config/nvim/init.vim<cr>
 nnoremap <leader>? :set spell!<cr>
-nnoremap <leader>w <c-w>
+
+" Moving between splits:
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
 
 cnoremap <c-a> <home>
 cnoremap <c-e> <end>
 nnoremap <right> <esc>>>
 nnoremap <left> <esc><<
-vnoremap <right> <esc>>>
-vnoremap <left> <esc><<
+vnoremap <right> >gv
+vnoremap <left> <gv
 nnoremap j gj
 nnoremap k gk
 nnoremap n nzz
@@ -80,7 +90,6 @@ nnoremap H ^
 nnoremap L $
 vnoremap H ^
 vnoremap L $
-inoremap `` §
 nnoremap } }j
 nnoremap { {k
 nmap <tab> :bnext<cr>
@@ -94,39 +103,55 @@ nnoremap <F8> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> t
 
 " Text-insertion bindings
 nnoremap <leader>n yyp<c-a>WC
-nnoremap <leader>d gg:put! =strftime('%b %d 20%y')<cr>ILast edited: <esc>
-inoremap ;<space><space> ::
+nmap <leader>d gg:put! =strftime('%b %d 20%y')<cr>ILast edited: <esc>:Commentary<cr>
 iabbrev <expr> day, strftime('%b %d, %Y: %H:%M')
 inoremap {<cr> {<cr>}<esc>O
+inoremap `` §
 " Solve equation in insert mode:
 inoremap <c-f> =<esc>0yt=A<c-r>=<c-r>"<cr><esc>A
 
 " }}}
 " The statusline                                                            {{{
 
-function ModeText()
-    let l:m = mode()
-    if l:m == "c"
-        return "Command:"
-    endif
-    return ""
-endfunction
-
 function SpellText()
     if &spell == 1
-        return "(S)"
+        return " (Sp)"
     endif
     return ""
 endfunction
 
-set statusline=%{(SpellText())}
-set statusline+=\ %{ModeText()}
-set statusline+=%="
-set statusline+=(%n)  " buffer number
-set statusline+=\ %t  " filename
-set statusline+=%m    " modified?
-set statusline+=,\ %l " line number
-set statusline+=/%L   " out of total numbers
+function BufNumText()
+    return "%n/" . len(getbufinfo({'buflisted':1}))
+endfunction
+
+function MyStatusLine() abort
+    let sl = ""
+
+    if g:statusline_winid == win_getid(winnr())
+        " Active window:
+
+        " '%N*', where N is an integer, means that the text
+        " is highlighted according to the group UserN. See the
+        " 'Colours and highlighting' section below. '%*'
+        " reverts the highlighting to the default.
+
+        let sl .= "%1* %t %*"                    " filename (colour 1)
+        let sl .= SpellText()                    " spellcheck on?
+        let sl .= " (" . BufNumText() . ")"      " buffer number / total
+        let sl .= "%*%="                         " align right
+        let sl .= "%2*%m%*"                      " modified? (colour 2)
+        let sl .= " %3*%l%*"                     " line number (colour 3)
+        let sl .= ":%c"                          " column number
+        let sl .= "/%L"                          " out of total numbers
+    else
+        " Inactive window:
+        let sl = "%t %m"                         " filename + modified?
+    endif
+
+    return sl
+endfunction
+
+set statusline=%!MyStatusLine()
 
 " }}}
 " Plugins                                                                   {{{
@@ -143,9 +168,12 @@ call plug#begin(stdpath('data') . '/plugged')
     Plug 'junegunn/fzf.vim'
     Plug 'justinmk/vim-sneak'
     Plug 'junegunn/vim-easy-align'
+    Plug 'neovimhaskell/haskell-vim'
+    Plug 'rust-lang/rust.vim'
+    Plug 'michaeljsmith/vim-indent-object'
     " Colour schemes
-    Plug 'sainnhe/sonokai'
     Plug 'chriskempson/base16-vim'
+    Plug 'sainnhe/sonokai'
 call plug#end()
 
 " Plugin-specific bindings:
@@ -155,57 +183,73 @@ nnoremap <leader>q :Files<cr>
 nnoremap # :Buffers<cr>
 vmap <Enter> <Plug>(EasyAlign)
 
+" For plasticboy/vim-markdown
+let g:vim_markdown_folding_disabled = 1
+
 " A vim-surround shortcut: make a plain paragraph into an HTML <p>aragraph
 imap <C-p> <esc>vipJyss<lt>p>gqip$F<lt>i
 
 " }}}
 " Colours and highlighting                                                  {{{
 
-" Some things undo custom highlighting, so I wrap these in
-" a function which can be called when necessary.
-" I won't necessarily have all of these 'turned on' all the time.
-function Colors()
-    " For keeping a transparent background
-    hi Normal      guibg=NONE
-    hi NonText     guibg=NONE
-    hi EndOfBuffer guibg=NONE
-    hi SignColumn  guibg=NONE
-    " Basics
-    hi StatusLine guibg=bg guifg=#61afef gui=BOLD
-    hi Comment gui=italic
-    hi LineNr guibg=NONE guifg=#3d3a3e
-    hi CursorLineNr guifg=#59b9f5
-    " Tabline
-    hi Tabline gui=NONE
-    hi TablineFill gui=NONE guibg=NONE
-    hi TablineSel guibg=#66bbff guifg=#002266
-    " HTML and Markdown
-    hi markdownCodeBlock guifg=fg
-    hi markdownItalic gui=italic
-    hi markdownBold gui=bold
-    hi htmlItalic gui=italic
-    hi htmlBold gui=bold
+" Some things undo custom highlighting, so I wrap my customisations
+" in a few functions.
+function ColorsCore()
+    "  NAME              STYLE      FOREGROUND    BACKGROUND
+    hi Normal                                     guibg=none
+    hi NonText                                    guibg=none
+    hi EndOfBuffer                                guibg=none
+    hi SignColumn                                 guibg=none
+    hi StatusLine        gui=bold   guifg=#616161 guibg=bg
+    hi StatusLineNC      gui=none   guifg=#445d70 guibg=bg
+    hi Comment           gui=italic
+    hi Function          gui=italic
+    hi CursorLineNr                 guifg=#9d9a9e
+    hi VertSplit                    guifg=#585858 guibg=none
+    hi CursorLineNr                 guifg=#59b9f5
+    hi LineNr                       guifg=#3d3a3e guibg=none
 endfunction
 
-autocmd ColorScheme * call Colors()
+function ColorsMdHtml()
+    "  NAME              STYLE      FOREGROUND    BACKGROUND
+    hi mkdFootnotes      gui=bold   guifg=hotpink
+    hi mkdBlockquote     gui=italic guifg=#ffffdd
+    hi markdownCodeBlock            guifg=fg
+    hi markdownItalic    gui=italic
+    hi markdownBold      gui=bold
+    hi htmlItalic        gui=italic
+    hi htmlBold          gui=bold
+endfunction
+
+function ColorsStatus()
+    "  NAME              STYLE      FOREGROUND    BACKGROUND
+    hi User1             gui=bold   guifg=#66D9EF
+    hi User2                        guifg=hotpink
+    hi User3             gui=italic guifg=#40c795
+endfunction
+
+autocmd ColorScheme * call ColorsCore()
+autocmd ColorScheme * call ColorsMdHtml()
+autocmd ColorScheme * call ColorsStatus()
+
+let g:sonokai_style = 'espresso'
+let g:sonokai_enable_italic = 1
 
 set background=dark
-let g:sonokai_style = 'shusia'
-let g:sonokai_enable_italic = 1
 colorscheme sonokai
 
 " }}}
 " Custom commands and functions, etc.                                       {{{
 
-command! Build !./build.sh
+command! Build !./build.sh %
 nnoremap <leader>m :wall<cr>:silent Build<cr>
 
 " Keep the cursorline only in the current window/buffer
-augroup CLinCurrent
-    au!
-    au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-    au WinLeave * setlocal nocursorline
-augroup END
+" augroup CLinCurrent
+"     au!
+"     au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+"     au WinLeave * setlocal nocursorline
+" augroup END
 
 function Seal()
     if winline() == winheight(winnr()) / 2 ||
@@ -222,30 +266,7 @@ nnoremap <leader><leader> :call Seal()<cr>
 " }}}
 " Filetype-specific                                                         {{{
 
-" Automatic Markdown list numbering
-function! Md_list()
-    let l:preceding = getline(line(".") - 1)
-    if l:preceding =~ '\v^\d+\.\s.'
-        let l:index = matchstr(l:preceding, '\v^\d*')
-        call setline(".", l:index + 1. ". ")
-    elseif l:preceding =~ '\v^\d+\.\s$'
-        call setline(line(".") - 1, "")
-    elseif l:preceding[0] == "-" && l:preceding[1] == " "
-        if strlen(l:preceding) == 2
-            call setline(line(".") - 1, "")
-        else
-            call setline(".", "- ")
-        endif
-    endif
-endfunction
-
-au FileType markdown inoremap <buffer> <cr> <cr><esc>:call Md_list()<cr>A
-
 " For rustlings
 nnoremap <leader>i :g/I AM NOT/d<cr>:let @/ = ""<cr>:w<cr>
-
-" Highlight some common Haskell functions
-au FileType haskell syn match Function "show\|elem\|product\|sum"
-au FileType haskell syn match Type "Bool\|String\|Int"
 
 " }}}

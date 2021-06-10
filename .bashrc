@@ -1,13 +1,14 @@
 # ------- Prompt --------------------------------------------------------------
 
 grey="\[\033[38;5;243m\]"
-pink="\[\033[38;5;9m\]"
+red="\[\033[38;5;9m\]"
+blue="\[\033[38;5;33m\]"
 norm="\[\033[0m\]"
 
 if [ -n "$TMUX" ]; then
-    export PS1="$grey($pink\W$grey) $norm"
+    export PS1="$grey$blue\W$grey \$$norm "
 else
-    export PS1="$grey{$pink\W$grey} $norm"
+    export PS1="$grey{$blue\W$grey} \$$norm "
 fi
 
 # ------- Preferences ---------------------------------------------------------
@@ -16,42 +17,65 @@ export EDITOR="vim"
 
 eval $(dircolors ~/.dircolors)
 
-bind 'TAB:menu-complete' # slightly better autocompletion
+if [ -t 0 ]; then
+    bind 'TAB:menu-complete' # slightly better autocompletion
+fi
+
+# ------- Wine Shortcuts ------------------------------------------------------
+
+alias hl2='wine ~/.wine/drive_c/Program\ Files\ \(x86\)/Half-Life\ 2/hl2.exe'
+alias skyrim='wine ~/.wine/drive_c/Program\ Files\ \(x86\)/R.G.\ Mechanics/Skyrim\ -\ Legendary\ Edition/SkyrimLauncher.exe'
 
 # ------- Aliases & Shortcuts -------------------------------------------------
 
+alias rm='trash'
+
+alias s='sudo'
+alias x='exit'
+alias c='clear'
+
 alias cat='batcat'
-alias vim='nvim'
-alias vi='nvim'
+alias lat='batcat --theme=OneHalfLight' # Light cAT
 alias mkdir='mkdir -p'
 alias ls='ls -F --group-directories-first --color'
 alias tree='tree -C'
 alias grep='grep -i --color=always'
-
 alias up='cd ..'
-alias x='exit'
 
 alias pac='sudo apt install'
 alias open='xdg-open'
 
+# vim shortcuts
+alias vim='nvim'
+alias vi='nvim'
+alias v='vim -c "normal '\''0"' # open most recent file
+
+# fzf shortcuts
+alias fim='vim $(fzf --reverse --height=10%)' # requires fzf
+alias fiff='git diff $(fzf --reverse --height=10%)'
+
+# markdown search
+ms() { grep $1 */*.md; }
 
 mkd() { mkdir $1 && cd $1; }
 get() { git clone https://github.com/$1; }
-fim() { vim -c Files; } # requires fzf
 
 p() { cd ~/.programs/$1; }
 d() { cd ~/Documents/$1; }
 n() { cd ~/Notes; }
 N() { ~/Notes/build.sh && open ~/Notes/out/notes.pdf; }
 
+define() { cambrinary -w $1; }
+
 # git shortcuts
 alias gpom='git push origin master'
 alias gpog='git push origin gh-pages'
+alias gpoa='git push origin main'
 alias md='git status -s */*.md'
 
 # rust shortcuts
-alias Re='vim src/main.rs'
-alias Rr='cargo run'
+alias re='vim src/main.rs'
+alias rr='cargo run'
 
 config() {
     if [ $1 = "b" ]; then

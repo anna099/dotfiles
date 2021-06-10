@@ -8,8 +8,8 @@ window:
         columns: 89
         lines: 26
     padding:
-        x: 15
-        y: 10
+        x: 25
+        y: 20
     decorations: full
     title: Terminal
     dynamic_title: true
@@ -18,20 +18,22 @@ background_opacity: 1
 
 font:
     normal:
-        # τὸ γὰρ αὐτὸ νοεῖν ἐστίν τε καὶ εἶναι.
-        family: Rec Mono Linear
-        style: Regular
+        family: Iosevka
+        style: Medium
     bold:
         style: Bold
     italic:
-        style: Italic
+        style: Medium Italic
     bold_italic:
         style: Bold Italic
 
-    size: 11.5
+    # Test for Greek support:
+    #     τὸ γὰρ αὐτὸ νοεῖν ἐστίν τε καὶ εἶναι.
+
+    size: 12
     offset:
-        x: 0
-        y: 0
+        x: 1
+        y: 7
     use_thin_strokes: true
 
 key_bindings:
@@ -39,56 +41,59 @@ key_bindings:
     - { key: J,         mods: alt,       chars: "\x1bj"           }
     - { key: K,         mods: alt,       chars: "\x1bk"           }
     - { key: L,         mods: alt,       chars: "\x1bl"           }
+    - { key: I,         mods: control,   chars: "*"               }
 
 schemes:
 
-    estuary: &estuary
+    light: &light
         primary:
-            background: '0xf4f3ec'
-            foreground: '0x5f5e4e'
+            background: '0xf8f8f8'
+            foreground: '0x383838'
         cursor:
-            text: '0xf4f3ec'
-            cursor: '0x5f5e4e'
+            text: '0xf8f8f8'
+            cursor: '0x383838'
         normal:
-            black:   '0xf4f3ec'
-            red:     '0xba6236'
-            green:   '0x7d9726'
-            yellow:  '0xa5980d'
-            blue:    '0x36a166'
-            magenta: '0x5f9182'
-            cyan:    '0x5b9d48'
-            white:   '0x5f5e4e'
+            black:   '0xf8f8f8'
+            red:     '0xab4642'
+            green:   '0xa1b56c'
+            yellow:  '0xf7ca88'
+            blue:    '0x7cafc2'
+            magenta: '0xba8baf'
+            cyan:    '0x86c1b9'
+            white:   '0x383838'
         bright:
-            black:   '0x878573'
-            red:     '0xae7313'
-            green:   '0xe7e6df'
-            yellow:  '0x929181'
-            blue:    '0x6c6b5a'
-            magenta: '0x302f27'
-            cyan:    '0x9d6c7c'
-            white:   '0x22221b'
+            black:   '0xb8b8b8'
+            red:     '0xab4642'
+            green:   '0xa1b56c'
+            yellow:  '0xf7ca88'
+            blue:    '0x7cafc2'
+            magenta: '0xba8baf'
+            cyan:    '0x86c1b9'
+            white:   '0x181818'
 
-    sonokai: &sonokai
+    monokai: &monokai
         primary:
-            background: "0x2d2a2e"
-            foreground: "0xe3e1e4"
+            # background: '#272825' # default
+            background: '#1b1b1b' # a bit darker
+            # background: '#312c2b' # coffee
+            foreground: '#F8F8F2'
         normal:
-            black: "0x1a181a"
-            red: "0xf85e84"
-            green: "0x9ecd6f"
-            yellow: "0xe5c463"
-            blue: "0x7accd7"
-            magenta: "0xab9df2"
-            cyan: "0xef9062"
-            white: "0xe3e1e4"
+            black:   '#272822'
+            red:     '#F92672'
+            green:   '#A6E22E'
+            yellow:  '#F4BF75'
+            blue:    '#66D9EF'
+            magenta: '#AE81FF'
+            cyan:    '#A1EFE4'
+            white:   '#F8F8F2'
         bright:
-            black: "0x1a181a"
-            red: "0xf85e84"
-            green: "0x9ecd6f"
-            yellow: "0xe5c463"
-            blue: "0x7accd7"
-            magenta: "0xab9df2"
-            cyan: "0xef9062"
-            white: "0xe3e1e4"
+            black:   '#75715E'
+            red:     '#F92672'
+            green:   '#A6E22E'
+            yellow:  '#F4BF75'
+            blue:    '#66D9EF'
+            magenta: '#AE81FF'
+            cyan:    '#A1EFE4'
+            white:   '#F9F8F5'
 
-colors: *sonokai
+colors: *monokai
