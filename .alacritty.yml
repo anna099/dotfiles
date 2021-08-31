@@ -1,99 +1,130 @@
 # Configuration for Alacritty, the GPU enhanced terminal emulator.
 
 shell:
-    program: /usr/bin/bash
+  program: /usr/bin/bash
 
 window:
-    dimensions:
-        columns: 89
-        lines: 26
-    padding:
-        x: 25
-        y: 20
-    decorations: full
-    title: Terminal
-    dynamic_title: true
+  dimensions:
+    columns: 89
+    lines: 26
+  padding:
+    x: 25
+    y: 20
+  decorations: full
+  title: Terminal
+  dynamic_title: false
 
 background_opacity: 1
 
 font:
-    normal:
-        family: Iosevka
-        style: Medium
-    bold:
-        style: Bold
-    italic:
-        style: Medium Italic
-    bold_italic:
-        style: Bold Italic
+  normal:
+    family: Iosevka
+    style: Medium
+  bold:
+    style: Bold
+  italic:
+    style: Medium Italic
+  bold_italic:
+    style: Bold Italic
 
-    # Test for Greek support:
-    #     τὸ γὰρ αὐτὸ νοεῖν ἐστίν τε καὶ εἶναι.
+  # Test for Greek support:
+  #   τὸ γὰρ αὐτὸ νοεῖν ἐστίν τε καὶ εἶναι.
 
-    size: 12
-    offset:
-        x: 1
-        y: 7
-    use_thin_strokes: true
+  size: 12
+  offset:
+    x: 0
+    y: 0
+  use_thin_strokes: true
+
+cursor:
+  style:
+    shape: Beam
+    blinking: Always
+
 
 key_bindings:
-    - { key: H,         mods: alt,       chars: "\x1bh"           }
-    - { key: J,         mods: alt,       chars: "\x1bj"           }
-    - { key: K,         mods: alt,       chars: "\x1bk"           }
-    - { key: L,         mods: alt,       chars: "\x1bl"           }
-    - { key: I,         mods: control,   chars: "*"               }
+  - { key: H,     mods: alt,     chars: "\x1bh"       }
+  - { key: J,     mods: alt,     chars: "\x1bj"       }
+  - { key: K,     mods: alt,     chars: "\x1bk"       }
+  - { key: L,     mods: alt,     chars: "\x1bl"       }
+  - { key: I,     mods: control,   chars: "*"         }
 
 schemes:
 
-    light: &light
-        primary:
-            background: '0xf8f8f8'
-            foreground: '0x383838'
-        cursor:
-            text: '0xf8f8f8'
-            cursor: '0x383838'
-        normal:
-            black:   '0xf8f8f8'
-            red:     '0xab4642'
-            green:   '0xa1b56c'
-            yellow:  '0xf7ca88'
-            blue:    '0x7cafc2'
-            magenta: '0xba8baf'
-            cyan:    '0x86c1b9'
-            white:   '0x383838'
-        bright:
-            black:   '0xb8b8b8'
-            red:     '0xab4642'
-            green:   '0xa1b56c'
-            yellow:  '0xf7ca88'
-            blue:    '0x7cafc2'
-            magenta: '0xba8baf'
-            cyan:    '0x86c1b9'
-            white:   '0x181818'
+  monokai: &monokai
+    primary:
+      # background: '#272825' # default
+      background: '#1b1b1b' # a bit darker
+      # background: '#312c2b' # coffee
+      foreground: '#F8F8F2'
+    normal:
+      black:   '#272822'
+      red:   '#F92672'
+      green:   '#A6E22E'
+      yellow:  '#F4BF75'
+      blue:  '#66D9EF'
+      magenta: '#AE81FF'
+      cyan:  '#A1EFE4'
+      white:   '#F8F8F2'
+    bright:
+      black:   '#75715E'
+      red:   '#F92672'
+      green:   '#A6E22E'
+      yellow:  '#F4BF75'
+      blue:  '#66D9EF'
+      magenta: '#AE81FF'
+      cyan:  '#A1EFE4'
+      white:   '#F9F8F5'
 
-    monokai: &monokai
-        primary:
-            # background: '#272825' # default
-            background: '#1b1b1b' # a bit darker
-            # background: '#312c2b' # coffee
-            foreground: '#F8F8F2'
-        normal:
-            black:   '#272822'
-            red:     '#F92672'
-            green:   '#A6E22E'
-            yellow:  '#F4BF75'
-            blue:    '#66D9EF'
-            magenta: '#AE81FF'
-            cyan:    '#A1EFE4'
-            white:   '#F8F8F2'
-        bright:
-            black:   '#75715E'
-            red:     '#F92672'
-            green:   '#A6E22E'
-            yellow:  '#F4BF75'
-            blue:    '#66D9EF'
-            magenta: '#AE81FF'
-            cyan:    '#A1EFE4'
-            white:   '#F9F8F5'
+  gruvbox_light: &light
+    primary:
+      background: '#fffefa'
+      foreground: '#3c3836'
+    normal:
+      black:   '#fbf1c7'
+      red:   '#cc241d'
+      green:   '#98971a'
+      yellow:  '#d79921'
+      blue:  '#458588'
+      magenta: '#b16286'
+      cyan:  '#689d6a'
+      white:   '#7c6f64'
+    bright:
+      black:   '#928374'
+      red:   '#9d0006'
+      green:   '#79740e'
+      yellow:  '#b57614'
+      blue:  '#076678'
+      magenta: '#8f3f71'
+      cyan:  '#427b58'
+      white:   '#3c3836'
 
-colors: *monokai
+  gruvbox_dark: &dark
+    primary:
+      # hard contrast: '#1d2021'
+      # normal contrast: '#282828'
+      # soft contrast: '#32302f'
+      background:        &gruvbox_dark_bg '#1d2021'
+      # foreground:        '#ebdbb2'
+      foreground: '#fbebdb'
+    bright:
+      black:   '#928374'
+      red:     '#fb4934'
+      green:   '#b8bb26'
+      yellow:  '#fabd2f'
+      blue:    '#83a598'
+      magenta: '#d3869b'
+      cyan:    '#8ec07c'
+      white:   '#ebdbb2'
+    normal:
+      black:   *gruvbox_dark_bg
+      red:     '#cc241d'
+      green:   '#98971a'
+      yellow:  '#d79921'
+      blue:    '#458588'
+      magenta: '#b16286'
+      cyan:    '#689d6a'
+      white:   '#a89984'
+
+# colors: *gruvbox_light
+colors: *dark
