@@ -2,16 +2,11 @@
 " They are at the top because I'm likely to change them often.
 
 set nowrap
-set number
+set nonumber
 set colorcolumn=+1
 set list
 set cursorline
 
-" [Do not edit]                                                             {{{
-let dark = 1
-let light = 0
-let dark_mode = dark
-" }}}
 " General settings                                                          {{{
 set nocompatible
 syntax on
@@ -94,6 +89,7 @@ nnoremap <leader>v :vsp ~/.config/nvim/init.vim<cr>
 nnoremap <leader>V :edit ~/.config/nvim/init.vim<cr>
 nnoremap <leader>? :set spell!<cr>
 nnoremap <leader><cr> :nohlsearch<cr>
+nnoremap <leader>] :set number!<cr>
 
 " Moving between splits:
 nnoremap <c-h> <c-w>h
@@ -208,36 +204,25 @@ call plug#begin(stdpath('data') . '/plugged')
     Plug 'tpope/vim-commentary'
     Plug 'tpope/vim-surround'
     Plug 'cespare/vim-toml'
-    Plug 'prettier/vim-prettier'
     Plug 'justinmk/vim-sneak'
-    Plug 'neovimhaskell/haskell-vim'
     Plug 'rust-lang/rust.vim'
     Plug 'michaeljsmith/vim-indent-object'
     Plug 'kyazdani42/nvim-web-devicons'
     Plug 'ackyshake/VimCompletesMe'
-    Plug 'luochen1990/rainbow'
     Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
-    Plug 'romgrk/barbar.nvim'
+    Plug 'airblade/vim-gitgutter'
     " Colour schemes
     Plug 'sainnhe/sonokai'
     Plug 'lifepillar/vim-gruvbox8'
     Plug 'rakr/vim-one'
 call plug#end()
 
-let g:rainbow_active = 1
-let g:rainbow_conf = {
-\	'guifgs': ['fg', '#d3869b', '#008800', '#86d39b', '#bf4a33'],
-\	'guis': ['bold'],
-\}
-
 " Plugin-specific bindings:
 nnoremap <backspace> :FixWhitespace<cr>:update<cr>
 nnoremap <leader>l :Commentary<cr>
 nnoremap # :Clap buffers<cr>
 nnoremap <leader>q :Clap files<cr>
-
-" A vim-surround shortcut: make a plain paragraph into an HTML <p>aragraph
-imap <C-p> <esc>vipJyss<lt>p>gqip$F<lt>i
+nnoremap <leader>d :GitGutterLineHighlightsToggle<cr>
 
 " }}}
 " Colours and Appearance                                                    {{{
@@ -312,17 +297,6 @@ autocmd ColorScheme * call ColorsCore()
 autocmd ColorScheme * call ColorsMdHtml()
 autocmd ColorScheme * call ColorsStatus()
 
-let g:sonokai_style = 'default'
-let g:sonokai_enable_italic = 1
-
-if dark_mode
-    set background=dark
-    colorscheme gruvbox8_hard
-else
-    set background=light
-    colorscheme gruvbox8_hard
-endif
-
 set guifont=Iosevka:h12
 
 " }}}
@@ -353,16 +327,6 @@ endfunction
 " nnoremap <leader><leader> :call Seal()<cr>
 
 " }}}
-" Todo lists                                                                {{{
 
-syn match todoPending "\v^✘"
-hi todoPending guifg=red
-
-syn match todoDone "\v^✓"
-hi todoDone guifg=green
-
-iabbrev <expr> todo, printf('✘')
-
-nnoremap <leader>d :s/✘/✓/<cr>
-
-" }}}
+set background=dark
+colorscheme sonokai

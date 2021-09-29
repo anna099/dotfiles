@@ -1,6 +1,6 @@
-source ~/.bashrc
+#
+# ~/.bash_profile
+#
 
-# <><><><><> Programming Languages <><><><><><><><><><><><><><><><><><><><><><>
-
-export PATH="$HOME/.cargo/bin:$PATH" # Rust
-eval $(opam env) # Ocaml
+[[ -f ~/.bashrc ]] && . ~/.bashrc
+. "$HOME/.cargo/env"

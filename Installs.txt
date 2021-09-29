@@ -1,0 +1,39 @@
+INSTALLS.TXT
+
+This is a chronological list of all software that I have installed on this
+computer. The method of installation for a piece of software is provided in
+parentheses, unless it was installed normally via `pacman`. Some software has
+been given a description in square brackets.
+
+neovim
+rust and cargo (curl https://sh.rustup.rs -sSf | sh)
+alacritty
+plank [dock]
+rofi [application launcher]
+tmux
+zoom (tar.xz from the Zoom website)
+conky
+discord (AUR: discord_arch_electron)
+spotify (AUR: spotify)
+playerctl [command line music player interface]
+scrot
+neofetch
+nodejs
+npm
+alacritty-themes (via npm)
+minecraft (AUR: minecraft-launcher)
+bluez, bluez-utils, pulseaudio-bluetooth [bluetooth utilities]
+blueman [bluetooth GUI]
+quadrapassel [tetris game]
+zsh
+pandoc
+zathura
+zathura-pdf-mupdf
+wine
+ripgrep
+rofi-file-browser-extended (AUR: rofi-file-browser-extended)
+trash-cli
+transmission-gtk
+steam
+Half Life 2 (Steam)
+gnome-bluetooth
