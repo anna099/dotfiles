@@ -5,7 +5,7 @@ set nowrap
 set nonumber
 set colorcolumn=+1
 set list
-set cursorline
+set nocursorline
 
 " General settings                                                          {{{
 set nocompatible
@@ -50,6 +50,7 @@ set nojoinspaces
 set scrolloff=1
 set listchars=tab:\|\ ,trail:·,extends:>,precedes:<
 set confirm " ask to save when quitting an edited file
+set title
 
 " }}}
 " Folds                                                                     {{{
@@ -85,7 +86,7 @@ nnoremap <leader>a ggVG
 nnoremap <leader>m :wall<cr>:silent !./build.sh %<cr>
 nnoremap <leader>o za
 nnoremap <leader>u :source ~/.config/nvim/init.vim<cr>
-nnoremap <leader>v :vsp ~/.config/nvim/init.vim<cr>
+nnoremap <leader>v :sp ~/.config/nvim/init.vim<cr>
 nnoremap <leader>V :edit ~/.config/nvim/init.vim<cr>
 nnoremap <leader>? :set spell!<cr>
 nnoremap <leader><cr> :nohlsearch<cr>
@@ -133,6 +134,7 @@ iabbrev <expr> day, strftime('%b %d, %Y: %H:%M')
 inoremap ;; ::
 inoremap {<cr> {<cr>}<esc>O
 inoremap `` §
+inoremap <c-c> <!--  --><esc>bhi
 " Solve equation in insert mode:
 inoremap <c-f> =<esc>0yt=A<c-r>=<c-r>"<cr><esc>A
 
@@ -210,11 +212,13 @@ call plug#begin(stdpath('data') . '/plugged')
     Plug 'kyazdani42/nvim-web-devicons'
     Plug 'ackyshake/VimCompletesMe'
     Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
-    Plug 'airblade/vim-gitgutter'
     " Colour schemes
     Plug 'sainnhe/sonokai'
     Plug 'lifepillar/vim-gruvbox8'
     Plug 'rakr/vim-one'
+    Plug 'folke/tokyonight.nvim'
+    Plug 'tanvirtin/monokai.nvim'
+    Plug 'ayu-theme/ayu-vim'
 call plug#end()
 
 " Plugin-specific bindings:
@@ -222,60 +226,34 @@ nnoremap <backspace> :FixWhitespace<cr>:update<cr>
 nnoremap <leader>l :Commentary<cr>
 nnoremap # :Clap buffers<cr>
 nnoremap <leader>q :Clap files<cr>
-nnoremap <leader>d :GitGutterLineHighlightsToggle<cr>
 
 " }}}
 " Colours and Appearance                                                    {{{
 
-" Some things undo custom highlighting, so I wrap my customisations
-" in a few functions.
-function ColorsCore()
-    "  NAME              STYLE      FOREGROUND    BACKGROUND
-    hi Normal                                     guibg=none
-    hi NonText                                    guibg=none
-    hi EndOfBuffer                  guifg=#333333 guibg=none
-    hi SignColumn                                 guibg=none
-    hi Comment           gui=italic
-    hi Function          gui=italic
-    hi VertSplit                    guifg=#585858 guibg=none
-    hi CursorLine                                 guibg=#202020
-    hi CursorLineNr                 guifg=#59b9f5 guibg=none
-    hi LineNr                       guifg=#3d3a3e guibg=none
-    hi Folded                       guifg=#005500 guibg=none
-
-    " Plugins
-    hi BufferTabpageFill                          guibg=bg
-
-    if &background == "light"
-        hi CursorLine   guibg=#eeeeee
-        hi CursorLineNr guibg=bg
-        hi ColorColumn  guibg=#eeeeee
-        hi Folded       guibg=#fcede8
-    endif
+function CustomColors()
+    hi Normal guibg=none
+    hi NonText guibg=none
+    hi SignColumn guibg=none
+    hi VertSplit guibg=none
+    hi Comment gui=italic
+    " Just highlight the line # for cursorline:
+        " hi CursorLine guibg=bg
+        " hi CursorLineNr guibg=bg
+    " Markdown and HTML:
+    hi markdownItalic gui=italic
+    hi markdownBold gui=bold
+    hi htmlItalic gui=italic
+    hi htmlBold gui=bold
 endfunction
 
-function ColorsMdHtml()
-    "  NAME              STYLE      FOREGROUND    BACKGROUND
-    hi mkdFootnotes      gui=bold   guifg=hotpink
-    hi mkdBlockquote     gui=italic guifg=#ffffdd
-    hi markdownCodeBlock            guifg=fg
-    hi markdownItalic    gui=italic
-    hi markdownBold      gui=bold
-    hi htmlItalic        gui=italic
-    hi htmlBold          gui=bold
-endfunction
-
-function ColorsStatus()
-    " User1 is used for the filename.
-    " User2 is used for the [+] to indicate file changes.
-    " User3 is used for the current line.
-    " User4 is used for the total line numbers.
-    " User5 is used for the mode name.
-
+function StatusColors()
+    " User1 : filename.
+    " User2 : [+] to indicate file changes.
+    " User3 : current line.
+    " User4 : total line numbers.
+    " User5 : mode name.
     " Note: 'hi StatusLine' needs 'gui=none' or otherwise it is
     "       inverted by default.
-
-    "  NAME              STYLE      FOREGROUND    BACKGROUND
     hi StatusLine        gui=none   guifg=#445d70 guibg=#111111
     hi StatusLineNC                 guifg=#445d70
     hi User1             gui=bold   guifg=white   guibg=#234066
@@ -283,7 +261,6 @@ function ColorsStatus()
     hi User3             gui=bold   guifg=#40c795 guibg=#333333
     hi User4                        guifg=white   guibg=#333333
     hi User5             gui=bold   guifg=white   guibg=#008643
-
     if &background == "light"
         hi LineNr       guifg=#cccccc
         hi StatusLine   guifg=#333333 guibg=#eeeeee
@@ -293,9 +270,8 @@ function ColorsStatus()
     endif
 endfunction
 
-autocmd ColorScheme * call ColorsCore()
-autocmd ColorScheme * call ColorsMdHtml()
-autocmd ColorScheme * call ColorsStatus()
+autocmd ColorScheme * call CustomColors()
+autocmd ColorScheme * call StatusColors()
 
 set guifont=Iosevka:h12
 
@@ -306,13 +282,13 @@ set guifont=Iosevka:h12
 command! -nargs=1 H vsp|help <args>|normal <c-w>k:q<cr>
 
 " Keep the cursorline only in the current window/buffer
-if &cursorline
-    augroup CLinCurrent
-        au!
-        au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-        au WinLeave * setlocal nocursorline
-    augroup END
-endif
+" if &cursorline
+"     augroup CLinCurrent
+"         au!
+"         au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+"         au WinLeave * setlocal nocursorline
+"     augroup END
+" endif
 
 function Seal()
     if winline() == winheight(winnr()) / 2 ||
@@ -328,5 +304,9 @@ endfunction
 
 " }}}
 
-set background=dark
-colorscheme sonokai
+set background=light
+let ayucolor="light"
+colorscheme one
+hi Normal guifg=#000000
+hi markdownItalic guifg=#0033bb
+hi VertSplit guifg=lightpink
